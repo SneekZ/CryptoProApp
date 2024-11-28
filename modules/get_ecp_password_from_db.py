@@ -39,6 +39,9 @@ def get_passwords_by_snils(connection_data, snils):
 
     cursor.execute(query)
     data = cursor.fetchall()
+    if data:
+        data = list(filter(lambda x: x[0] != '' or x[0], data))
+
     global_parameters = load_global_parameters()
     passwords = [""]
     if data:

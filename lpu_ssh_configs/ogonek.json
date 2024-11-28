@@ -1,0 +1,12 @@
+{
+  "name": "Санаторий Огонек",
+  "host": "ogonek",
+  "port": 22,
+  "user": "root",
+  "password": "b9ownecRosp5",
+  "dbhost": "",
+  "dbport": 3306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}
