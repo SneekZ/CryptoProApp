@@ -1,0 +1,12 @@
+{
+  "name": "ГБУЗ ПТД № 4 МЗ КК (Кропоткин)",
+  "host": "kavptd4",
+  "port": 2222,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 33306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}
