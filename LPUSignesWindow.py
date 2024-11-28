@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.lpu.get_name())
         self.setGeometry(100, 100, 800, 600)
 
-        self.setMinimumSize(QSize(1200, 800))
+        self.setMinimumSize(QSize(1400, 800))
 
         # Главный виджет
         main_widget = QWidget()
@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         text_row_layout.addWidget(mo_show_button)
         main_layout.addLayout(text_row_layout)
 
-        self.table = QTableWidget(self.lpu.get_signs_amount(), 3)
+        self.table = QTableWidget(self.lpu.get_signs_amount(), 4)
 
         main_layout.addWidget(self.table)
 
@@ -91,7 +91,7 @@ class MainWindow(QMainWindow):
         button_back.clicked.connect(partial(self.back))
         main_layout.addWidget(button_back)
 
-        self.table.setHorizontalHeaderLabels(["ФИ", "СНИЛС", "Действия"])
+        self.table.setHorizontalHeaderLabels(["ФИ", "СНИЛС", "Срок действия", "Действия"])
 
         self.update_lpu()
         self.update_table()
@@ -187,10 +187,16 @@ class MainWindow(QMainWindow):
                 name = self.format_sign_name(sign, doubles)
                 self.table.setItem(i, 0, QTableWidgetItem(name))
                 self.table.setItem(i, 1, QTableWidgetItem(snils))
+                is_active = self.lpu.is_sign_expired(sign)
+                if is_active:
+                    active_text = "Активна"
+                else:
+                    active_text = "Истекла"
+                self.table.setItem(i, 2, QTableWidgetItem(active_text))
 
                 # Создание виджетов для кнопок
                 cell_widget = self.create_action_buttons(sign)
-                self.table.setCellWidget(i, 2, cell_widget)
+                self.table.setCellWidget(i, 3, cell_widget)
 
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 

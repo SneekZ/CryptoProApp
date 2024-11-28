@@ -1,7 +1,7 @@
 {
     "DEFAULT_PASSWORD": {
         "name": "Стандартный пароль подписей",
-        "value": "12345678",
+        "value": "123456",
         "type": "string"
     },
     "ASK_BEFORE_DELETE": {

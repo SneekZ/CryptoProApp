@@ -5,6 +5,7 @@ from modules.lpu_service import *
 from modules.load_global_parameters import load_global_parameters
 from modules.sign_parsing import parse, parse_find_text, is_error_in_exec, parse_config_py
 from modules.get_ecp_password_from_db import get_passwords_by_snils
+from datetime import datetime
 import time
 
 
@@ -112,6 +113,7 @@ class SshConnection:
                 is_error_global = is_error
             else:
                 return password, is_error
+
             # else:
             #     is_error = is_error_in_exec(out)
             #     if is_error:
@@ -263,6 +265,12 @@ class SshConnection:
         if "T" in sign["Subject"]:
             return "главный врач" in sign["Subject"]["T"].lower()
         return False
+
+    @staticmethod
+    def is_sign_expired(sign):
+        if "Not valid after" in sign:
+            date = datetime.strptime(sign["Not valid after"], '%d/%m/%Y  %H:%M:%S %Z')
+            return date > datetime.now()
 
 
 if __name__ == "__main__":
