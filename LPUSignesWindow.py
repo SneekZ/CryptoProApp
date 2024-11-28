@@ -118,7 +118,9 @@ class MainWindow(QMainWindow):
         if is_error:
             QMessageBox.warning(self, "Ошибка", answer)
         else:
-            QMessageBox.information(self, "Проверка подписи", answer)
+            if not answer:
+                answer = "без пароля"
+            QMessageBox.information(self, "Проверка подписи", f"Успешно подписано\nПароль: {answer}")
 
     def delete_sign(self, sign):
         self.lpu.update_parameters()

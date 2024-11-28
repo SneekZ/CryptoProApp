@@ -111,7 +111,7 @@ class SshConnection:
                 error_msg = out
                 is_error_global = is_error
             else:
-                return "Подписывается успешно", is_error
+                return password, is_error
             # else:
             #     is_error = is_error_in_exec(out)
             #     if is_error:
@@ -241,7 +241,6 @@ class SshConnection:
         if data:
             value, type = parse_config_py(data)
         return value, type
-
 
     @staticmethod
     def get_snils_from_sign(sign):

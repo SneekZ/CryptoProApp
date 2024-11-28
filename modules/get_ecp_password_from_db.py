@@ -40,7 +40,7 @@ def get_passwords_by_snils(connection_data, snils):
     cursor.execute(query)
     data = cursor.fetchall()
     global_parameters = load_global_parameters()
-    passwords = []
+    passwords = [""]
     if data:
         for password in data:
             if password:
