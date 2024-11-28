@@ -1,0 +1,12 @@
+{
+  "name": "СПб ГБУЗ Городская поликлиника № 17",
+  "host": "p17",
+  "port": 22,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 3306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

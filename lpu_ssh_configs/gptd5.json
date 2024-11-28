@@ -1,0 +1,12 @@
+{
+  "name": "Городской противотуберкулезный диспансер № 5",
+  "host": "10.129.121.24",
+  "port": 22,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 3306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

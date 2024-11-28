@@ -1,0 +1,12 @@
+{
+  "name": "Городской психоневрологический диспансер № 8",
+  "host": "pnd8",
+  "port": 10022,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 33306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

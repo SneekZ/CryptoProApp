@@ -1,0 +1,12 @@
+{
+  "name": "СПб ГБУЗ Стоматологическая поликлиника № 17",
+  "host": "pz17",
+  "port": 7722,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 7706,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

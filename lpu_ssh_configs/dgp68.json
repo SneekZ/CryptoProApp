@@ -1,0 +1,12 @@
+{
+  "name": "ДГП 68",
+  "host": "dp68vm",
+  "port": 22,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 3306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

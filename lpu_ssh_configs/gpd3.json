@@ -1,0 +1,12 @@
+{
+  "name": "Городской психоневрологический диспансер № 3",
+  "host": "172.24.48.100",
+  "port": 22,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 3306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

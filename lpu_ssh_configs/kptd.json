@@ -1,0 +1,12 @@
+{
+  "name": "КПТД",
+  "host": "192.168.1.3",
+  "port": 1248,
+  "user": "kcptd",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 4901,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}

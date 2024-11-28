@@ -1,0 +1,18 @@
+{
+    "DEFAULT_PASSWORD": {
+        "name": "Стандартный пароль подписей",
+        "value": "12345",
+        "type": "string"
+    },
+    "ASK_BEFORE_DELETE": {
+        "name": "Спрашивать подтверждение перед удалением",
+        "value": true,
+        "type": "bool"
+    },
+    "STYLESHEET_FILE": {
+        "name": "Тема оформления, нужно перезайти",
+        "value": "dark.qss",
+        "type": "file",
+        "path": "themes/"
+    }
+}
