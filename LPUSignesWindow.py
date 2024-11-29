@@ -81,15 +81,19 @@ class MainWindow(QMainWindow):
 
         main_layout.addWidget(self.table)
 
+        low_buttons_layout = QHBoxLayout()
+
         button_settings = QPushButton("Настройки")
         button_settings.setToolTip("Изменить глобальные константы")
         button_settings.clicked.connect(self.settings)
-        main_layout.addWidget(button_settings)
 
         button_back = QPushButton("Вернуться к выбору")
         button_back.setToolTip("Вернуться к окну выбора ЛПУ")
         button_back.clicked.connect(partial(self.back))
-        main_layout.addWidget(button_back)
+
+        low_buttons_layout.addWidget(button_settings)
+        low_buttons_layout.addWidget(button_back)
+        main_layout.addLayout(low_buttons_layout)
 
         self.table.setHorizontalHeaderLabels(["ФИ", "СНИЛС", "Срок действия", "Действия"])
 
