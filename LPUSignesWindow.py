@@ -108,6 +108,7 @@ class MainWindow(QMainWindow):
             error_text = self.lpu.get_signs()
             QMessageBox.warning(self, "Ошибка", error_text)
         else:
+            self.lpu.create_table(doubles=False, mo=False)
             self.signs_amount_text.setText(f"Подписи: {self.lpu.get_signs_amount()}")
             self.doubles_amount_text.setText(f"Дубли: {self.lpu.get_doubles_amount()}")
 
@@ -147,63 +148,56 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Удаление подписи", msg)
 
     def see_doubles(self):
-        self.update_table(doubles=not self.doubles, mo=False)
+        self.doubles = not self.doubles
+        self.lpu.create_table(doubles=self.doubles, mo=False)
+        self.update_table()
 
     def see_mo(self):
-        self.update_table(doubles=False, mo=not self.mo)
+        self.mo = not self.mo
+        self.lpu.create_table(doubles=False, mo=self.mo)
+        self.update_table()
 
-    def update_table(self, text="", doubles=False, mo=False):
-        self.table.blockSignals(True)  # Блокируем сигналы таблицы для ускорения
-        self.table.setUpdatesEnabled(False)  # Отключаем обновления интерфейса
+    def update_table(self, text=""):
+        try:
+            self.table.blockSignals(True)  # Блокируем сигналы таблицы для ускорения
+            self.table.setUpdatesEnabled(False)  # Отключаем обновления интерфейса
 
-        # Очистка таблицы
-        self.table.clearContents()
-        self.table.setRowCount(0)
+            # Очистка таблицы
+            self.table.clearContents()
+            self.table.setRowCount(0)
 
-        if mo:
-            signs = self.lpu.get_mo()
-            self.mo = True
-            self.doubles = False
-        elif doubles:
-            signs = self.lpu.get_doubles()
-            self.mo = False
-            self.doubles = True
-        else:
-            signs = self.lpu.get_signs_by_string(text)
-            self.mo = False
-            self.doubles = False
+            table = self.lpu.get_table()
 
-        signs_amount = len(signs)
-        if signs:
-            self.table.setRowCount(signs_amount)
+            table_size = len(table)
+            if table:
+                self.table.setRowCount(table_size)
+                number = 0
 
-            for i in range(signs_amount):
-                sign = signs[i]
-                snils = SshConnection.get_snils_from_sign(sign)
-                if not snils:
-                    # snils = "Нет снилса("
-                    continue
+                for i in range(table_size):
+                    table_sign = table[i]
 
-                name = self.format_sign_name(sign, doubles)
-                self.table.setItem(i, 0, QTableWidgetItem(name))
-                self.table.setItem(i, 1, QTableWidgetItem(snils))
-                is_active = self.lpu.is_sign_expired(sign)
-                if is_active:
-                    active_text = "Активна"
-                else:
-                    active_text = "Истекла"
-                self.table.setItem(i, 2, QTableWidgetItem(active_text))
+                    snils = table_sign["snils"]
+                    name = table_sign["name"]
+                    active = table_sign["active"]
 
-                # Создание виджетов для кнопок
-                cell_widget = self.create_action_buttons(sign)
-                self.table.setCellWidget(i, 3, cell_widget)
+                    if text.lower() in snils or text.lower() in name.lower() or not text:
+                        self.table.setItem(number, 0, QTableWidgetItem(name))
+                        self.table.setItem(number, 1, QTableWidgetItem(snils))
+                        self.table.setItem(number, 2, QTableWidgetItem(active))
 
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+                        # Создание виджетов для кнопок
+                        cell_widget = self.create_action_buttons(table_sign["sign"])
+                        self.table.setCellWidget(number, 3, cell_widget)
+                        number += 1
 
-        self.set_table_row_height(50)
+            self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
-        self.table.setUpdatesEnabled(True)  # Включаем обновления интерфейса
-        self.table.blockSignals(False)  # Включаем сигналы таблицы
+            self.set_table_row_height(50)
+
+            self.table.setUpdatesEnabled(True)  # Включаем обновления интерфейса
+            self.table.blockSignals(False)  # Включаем сигналы таблицы
+        except Exception as e:
+            print(e)
 
     def settings(self):
         from SettingsWindow import SettingsWindow

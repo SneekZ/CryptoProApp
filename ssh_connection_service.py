@@ -27,6 +27,8 @@ class SshConnection:
 
         self.__mo = []
 
+        self.__table = []
+
     def connect(self):
         try:
             self.ssh_client = paramiko.SSHClient()
@@ -178,6 +180,9 @@ class SshConnection:
     def get_mo(self):
         return self.__mo
 
+    def get_table(self):
+        return self.__table
+
     def get_signs_by_string(self, find_text=''):
         if not find_text:
             return self.__signs
@@ -243,6 +248,78 @@ class SshConnection:
         if data:
             value, type = parse_config_py(data)
         return value, type
+
+    def create_table(self, doubles=False, mo=False):
+        signs = self.__signs
+
+        table = []
+
+        if not mo and not doubles:
+            for sign in signs:
+                table.append(self.__create_table_record(sign, doubles))
+        if doubles:
+            for sign in self.get_doubles():
+                table.append(self.__create_table_record(sign, doubles))
+        if mo:
+            signs_mo = self.__mo
+            for sign in signs_mo:
+                table.append(self.__create_table_record(sign, False))
+        self.__table = table
+
+    def __create_table_record(self, sign, doubles=False):
+        sign_record = {}
+
+        snils = self.get_snils_from_sign(sign)
+        if not snils:
+            return {}
+        sign_record["snils"] = snils
+
+        name = self.__format_sign_name(sign, doubles)
+        sign_record["name"] = name
+
+        is_active = self.is_sign_expired(sign)
+        if is_active:
+            active = "Активна"
+        else:
+            active = "Истекла"
+
+        sign_record["active"] = active
+
+        sign_record["sign"] = sign
+        return sign_record
+
+    def __format_sign_name(self, sign, doubles):
+        if doubles:
+            if self.__is_old_double(sign):
+                text = f'{sign["Subject"]["SN"]} {sign["Subject"]["G"]} (старый)'
+            else:
+                text = f'{sign["Subject"]["SN"]} {sign["Subject"]["G"]} (новый)'
+
+        else:
+            if sign in self.get_doubles():
+                text = f'{sign["Subject"]["SN"]} {sign["Subject"]["G"]} (дубль)'
+            else:
+                text = f'{sign["Subject"]["SN"]} {sign["Subject"]["G"]}'
+        if sign in self.get_mo():
+            text += " (МО)"
+        return text
+
+    def __is_old_double(self, my_sign):
+        signs = self.__signs
+
+        my_snils = self.get_snils_from_sign(my_sign)
+        my_date = my_sign["Not valid before"]
+        sign_dates = []
+        for sign in signs:
+            snils = self.get_snils_from_sign(sign)
+            if snils == my_snils:
+                sign_dates.append(sign["Not valid before"])
+        sign_dates = list(sorted(sign_dates))
+        if my_date == sign_dates[-1]:
+            return True
+        else:
+            return False
+
 
     @staticmethod
     def get_snils_from_sign(sign):

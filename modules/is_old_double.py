@@ -2,6 +2,7 @@ from ssh_connection_service import SshConnection
 
 
 def is_old_double(signs, my_sign):
+    from ssh_connection_service import SshConnection
     my_snils = SshConnection.get_snils_from_sign(my_sign)
     my_date = my_sign["Not valid before"]
     sign_dates = []
