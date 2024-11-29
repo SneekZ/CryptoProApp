@@ -346,17 +346,34 @@ class SshConnection:
     @staticmethod
     def is_sign_expired(sign):
         if "Not valid after" in sign:
-            date = datetime.strptime(sign["Not valid after"], '%d/%m/%Y  %H:%M:%S %Z')
+            if isinstance(sign["Not valid after"], str):
+                date = datetime.strptime(sign["Not valid after"], '%d/%m/%Y  %H:%M:%S %Z')
+            else:
+                date = sign["Not valid after"]
             return date > datetime.now()
 
 
 if __name__ == "__main__":
-    data, is_error = get_connection_data_from_json([data for data in get_files_list()][0])
-    if is_error:
-        print(data)
-        sys.exit()
-    print([data for data in get_files_list()][0])
+    # data, is_error = get_connection_data_from_json([data for data in get_files_list()][0])
+    # if is_error:
+    #     print(data)
+    #     sys.exit()
+    # print([data for data in get_files_list()][0])
+    data = {
+  "name": "Санаторий Комарово",
+  "host": "dsankomdb",
+  "port": 22,
+  "user": "root",
+  "password": "shedF34A",
+  "dbhost": "",
+  "dbport": 3306,
+  "dbuser": "dbuser",
+  "dbpassword": "dbpassword",
+  "database": "s11"
+}
     lpu = SshConnection(data)
     lpu.connect()
     lpu.update()
+    lpu.create_table()
+    print(lpu.get_table())
 
